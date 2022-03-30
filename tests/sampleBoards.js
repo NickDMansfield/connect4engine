@@ -34,4 +34,15 @@ module.exports = {
     boardArray[5][5] = "x";
     return boardArray;
   },
+  boardWithLossAvailable: function () {
+    const boardArray = buildBoard();
+    boardArray[1][5] = "o";
+    boardArray[2][5] = "x";
+    boardArray[5][5] = "x";
+    boardArray[1][4] = "x";
+    boardArray[2][4] = "x";
+    boardArray[4][5] = "x";
+    boardArray[4][4] = "x";
+    return boardArray;
+  },
 };

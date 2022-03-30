@@ -158,4 +158,24 @@ module.exports = {
       }
     }
   },
+  findLosingMoves: function (boardState) {
+    let availableMoves = utils.getFreshColumnArray();
+    let losingMoves = [];
+    console.log(utils.showBoard(boardState));
+    for (let columnToCheck of availableMoves) {
+      //  console.log(columnToCheck);
+      // console.log(utils.getIndexOfDropPointInColumn(boardState[columnToCheck]));
+      let dropRow = utils.getIndexOfDropPointInColumn(
+        boardState[columnToCheck]
+      );
+      console.log(dropRow);
+      if (
+        dropRow > 0 &&
+        this.isSpotAWinner(columnToCheck, dropRow - 1, boardState, "x")
+      ) {
+        losingMoves.push(columnToCheck);
+      }
+    }
+    return losingMoves;
+  },
 };

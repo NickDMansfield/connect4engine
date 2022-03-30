@@ -35,3 +35,11 @@ console.log(
     resultWinningMoves[0] === 0 &&
     resultWinningMoves[1] === 3
 );
+
+console.log("Testing findLosingMoves");
+console.log("Horizontal loss");
+let resultLosingMoves = logic.findLosingMoves(
+  sampleBoards.boardWithLossAvailable()
+);
+console.log(resultLosingMoves);
+console.log(resultLosingMoves.length === 1 && resultLosingMoves[0] === 3);
