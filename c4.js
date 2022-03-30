@@ -1,6 +1,6 @@
 const sampleBoards = require("./tests/sampleBoards.js");
 const utils = require("./utils/utils.js");
-const boardArray = sampleBoards.boardWithWinAvailable();
+const boardArray = sampleBoards.boardWithLossAvailable();
 const logic = require("./brain/logic");
 
 let winningMoves = [];
@@ -8,13 +8,17 @@ let losingMoves = [];
 
 function decideMove(boardState) {
   let availableColumns = utils.getFreshColumnArray();
+  console.log(availableColumns);
   winningMoves = logic.findWinningMoves(boardState);
+  console.log(winningMoves);
   // If you have a winning move, take it
   if (winningMoves.length > 0) {
     return winningMoves;
   }
   // Remove all losing moves
   losingMoves = logic.findLosingMoves(boardState);
+  availableColumns = availableColumns.filter((c) => !losingMoves.includes(c));
+  console.log(availableColumns);
   // Can my opponent win next turn?
   //    If so, select from block options
   // Can I set up a win for next turn?
@@ -25,4 +29,5 @@ function decideMove(boardState) {
 
 function analyzeBoardState(boardState) {}
 
-utils.showBoard(boardArray);
+decideMove(boardArray);
+//utils.showBoard(boardArray);
