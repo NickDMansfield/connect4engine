@@ -1,7 +1,7 @@
 const utils = require("../utils/utils");
 
 module.exports = {
-  findWinningMoves: function (boardState) {
+  findWinningMoves: function (boardState, valToCheck = 1) {
     let availableMoves = utils.getFreshColumnArray();
     let winningMoves = [];
     // console.log(utils.showBoard(boardState));
@@ -13,7 +13,7 @@ module.exports = {
           columnToCheck,
           utils.getIndexOfDropPointInColumn(boardState[columnToCheck]),
           boardState,
-          "o"
+          valToCheck
         )
       ) {
         winningMoves.push(columnToCheck);
@@ -170,7 +170,7 @@ module.exports = {
       );
       if (
         dropRow > 0 &&
-        this.isSpotAWinner(columnToCheck, dropRow - 1, boardState, "x")
+        this.isSpotAWinner(columnToCheck, dropRow - 1, boardState, "0")
       ) {
         losingMoves.push(columnToCheck);
       }

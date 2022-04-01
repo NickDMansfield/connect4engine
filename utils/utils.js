@@ -52,4 +52,10 @@ module.exports = {
     }
     return [true, boardArray[newColIndex][newRowIndex]];
   },
+  dropTokenInColumn: function (boardState, colIndex, valueToPlace = 1) {
+    let dropIndex = getIndexOfDropPointInColumn(boardState[colIndex]);
+    if (dropIndex >= 0) {
+      boardState[colIndex][dropIndex] = valueToPlace;
+    }
+  },
 };
