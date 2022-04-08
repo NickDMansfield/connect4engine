@@ -6,6 +6,13 @@ const getIndexOfDropPointInColumn = function (colArray) {
   }
   return colArray.length - 1;
 };
+const getFreshColumnArray = function () {
+  return [0, 1, 2, 3, 4, 5, 6];
+};
+
+const canTokenBeDroppedInColumn = function (columnArray) {
+  return getIndexOfDropPointInColumn(columnArray) > -1;
+};
 module.exports = {
   showBoard: function (boardArray) {
     let boardDisplayString = "";
@@ -29,12 +36,15 @@ module.exports = {
     }
     return boardArray;
   },
-  getFreshColumnArray: function () {
-    return [0, 1, 2, 3, 4, 5, 6];
-  },
+  getFreshColumnArray,
   getIndexOfDropPointInColumn,
-  canTokenBeDroppedInColumn: function (columnArray) {
-    return getIndexOfDropPointInColumn(columnArray) > -1;
+  canTokenBeDroppedInColumn,
+  getAvailableColumns: function (boardState) {
+    let availableColumns = getFreshColumnArray();
+    availableColumns = availableColumns.filter((ac) => {
+      return canTokenBeDroppedInColumn(boardState[ac]);
+    });
+    return availableColumns;
   },
   getRandomAvailableColumn: function (boardArray, colIndicesToExclude = []) {
     const availableColumnsWithIndex = [];
