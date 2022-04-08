@@ -246,7 +246,11 @@ module.exports = {
     }
     //    Does it break one of your captured columns?
     // Can you capture a column/create a deadzone?
-    return availableColumns.length ? availableColumns[0] : -1;
+    return availableColumns.length
+      ? availableColumns[
+          Math.ceil(Math.random() * (availableColumns.length - 1))
+        ]
+      : -1;
   },
   findWinningMoves,
   isSpotAWinner,
