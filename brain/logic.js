@@ -191,9 +191,9 @@ module.exports = {
     utils.showBoard(boardState);
     let availableColumns = utils.getAvailableColumns(boardState);
     // Filter out columns which are maxed out
-    console.log(availableColumns);
+    // console.log(availableColumns);
     winningMoves = findWinningMoves(boardState, valToCheck);
-    console.log("winning moves:" + winningMoves);
+    // console.log("winning moves:" + winningMoves);
     // If you have a winning move, take it
     if (winningMoves.length > 0) {
       return winningMoves[0];
@@ -201,8 +201,8 @@ module.exports = {
     // Remove all losing moves
     losingMoves = findLosingMoves(boardState, valToCheck === 1 ? 0 : 1);
     availableColumns = availableColumns.filter((c) => !losingMoves.includes(c));
-    console.log("post losing moves:" + availableColumns);
-    console.log("type in arr:" + typeof availableColumns[2]);
+    // console.log("post losing moves:" + availableColumns);
+    // console.log("type in arr:" + typeof availableColumns[2]);
     // Can my opponent win next turn?
     opponentsWinningMoves = findWinningMoves(
       boardState,
@@ -212,11 +212,11 @@ module.exports = {
     //    If so, select from block options
     //        For each blocking move, determine if the opponent can still win afterwards. Elliminate it if so
     let blockingMoves = opponentsWinningMoves.filter((owm) => {
-      console.log("owm type:" + typeof owm);
-      console.log(availableColumns.includes(owm));
+      // console.log("owm type:" + typeof owm);
+      // console.log(availableColumns.includes(owm));
       return availableColumns.includes(owm);
     });
-    console.log("blocking moves:" + blockingMoves);
+    // console.log("blocking moves:" + blockingMoves);
     if (blockingMoves.length) {
       if (blockingMoves.length == 1) {
         return blockingMoves[0];
@@ -224,7 +224,7 @@ module.exports = {
       // We have multiple blocking options
       availableColumns = blockingMoves;
     }
-    console.log("ac after blocking: " + availableColumns);
+    // console.log("ac after blocking: " + availableColumns);
     // Can I set up a win for next turn?
     let winningNextTurnAvailableMoves = availableColumns.filter(
       (ac) =>
@@ -237,9 +237,10 @@ module.exports = {
           valToCheck
         ).length > 0
     );
-    console.log("awm:" + winningNextTurnAvailableMoves);
+    // console.log("awm:" + winningNextTurnAvailableMoves);
     if (winningNextTurnAvailableMoves.length) {
       if (winningNextTurnAvailableMoves.length == 1) {
+        console.log("WINNER WINNER CHICKEN DINNER");
         return winningNextTurnAvailableMoves[0];
       }
       availableColumns = winningNextTurnAvailableMoves;

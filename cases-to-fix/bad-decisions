@@ -1,43 +1,18 @@
-[
-  [ '*', '*', '*', '*', '*', '*' ],
-  [ 1, 1, '0', 1, 1, '0' ],
-  [ 1, 1, '0', '0', 1, '0' ],
-  [ '*', '0', '0', 1, 1, 1 ],
-  [ '*', '*', '*', '0', '0', '0' ],
-  [ 1, '0', '0', 1, 1, 1 ],
-  [ '*', '*', '0', 1, '0', '0' ]
-]
-*11**1*
-*110*0*
-*000*00
-*101011
-*111010
-*001010
 
-undefined
-0
+*******
+*******
+***00**
+**11101
+*011101
+*100010
 
-It is selecting 0, but should select 4
+owm: 1,2
+WINNER WINNER CHICKEN DINNER
+*******
+*******
+**000**
+**11101
+*011101
+*100010
 
-=============================================================
-
-[
-  [ '*', '*', '*', '*', '*', '*' ],
-  [ '0', '0', 1, '0', '0', '0' ],
-  [ 1, 1, 1, '0', 1, '0' ],
-  [ '0', 1, '0', 1, '0', 1 ],
-  [ '*', '*', '0', 1, '0', 1 ],
-  [ '0', 1, '0', 1, 1, '0' ],
-  [ '*', '*', '*', '*', 1, 1 ]
-]
-*010*0*
-*011*1*
-*11000*
-*00111*
-*010011
-*001101
-
-undefined
-2
-
-It is selecting 2, when a piece cannot be placed there. It should say 6, because that is a winning move
+For some reason, Player 0 chose to place in Column 2 rather than column 1. Player 1 has an available win, which should force a block rather than a proactive move

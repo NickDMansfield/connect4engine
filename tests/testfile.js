@@ -1,5 +1,6 @@
 const sampleBoards = require("./sampleBoards");
 const logic = require("../brain/logic");
+const utils = require("../utils/utils");
 
 console.log("Testing findWinningMoves");
 console.log("Horizontal wins");
@@ -90,3 +91,21 @@ function testDecideMoves() {
   }
 }
 testDecideMoves();
+
+console.log("Testing ReverseShownBoard");
+const boardToReverse =
+  "*11**1*\r\n" +
+  "*110*0*\r\n" +
+  "*000*00\r\n" +
+  "*101011\r\n" +
+  "*111010\r\n" +
+  "*001010";
+const reversedBoard = utils.reverseShownBoard(boardToReverse);
+const dereversedBoard = utils.showBoard(reversedBoard);
+//console.log("b2re:\r\n" + boardToReverse);
+//console.log(reversedBoard);
+//console.log("dere:\r\n" + dereversedBoard);
+//console.log(boardToReverse == dereversedBoard);
+console.log(reversedBoard[5][0] === 1);
+console.log(reversedBoard[4][3] === 0);
+console.log(reversedBoard[2][2] === 0);

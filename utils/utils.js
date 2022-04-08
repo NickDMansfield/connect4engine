@@ -13,29 +13,56 @@ const getFreshColumnArray = function () {
 const canTokenBeDroppedInColumn = function (columnArray) {
   return getIndexOfDropPointInColumn(columnArray) > -1;
 };
-module.exports = {
-  showBoard: function (boardArray) {
-    let boardDisplayString = "";
-    for (let rowIndex = 0; rowIndex < 6; ++rowIndex) {
-      for (let colIndex = 0; colIndex < 7; ++colIndex) {
-        boardDisplayString += boardArray[colIndex][rowIndex] || "*";
-      }
-      boardDisplayString += "\r\n";
+const buildBoard = function () {
+  const boardArray = [];
+  const boardCols = 7;
+  const boardRows = 6;
+  for (let colIndex = 0; colIndex < boardCols; ++colIndex) {
+    boardArray.push([]);
+    for (let rowIndex = 0; rowIndex < boardRows; ++rowIndex) {
+      boardArray[colIndex].push("*");
     }
-    console.log(boardDisplayString);
-  },
-  buildBoard: function () {
-    const boardArray = [];
-    const boardCols = 7;
-    const boardRows = 6;
-    for (let colIndex = 0; colIndex < boardCols; ++colIndex) {
-      boardArray.push([]);
-      for (let rowIndex = 0; rowIndex < boardRows; ++rowIndex) {
-        boardArray[colIndex].push("*");
+  }
+  return boardArray;
+};
+
+module.exports = {
+  reverseShownBoard: function (showBoardString) {
+    const shownRows = showBoardString.split("\r\n");
+    const boardArray = buildBoard();
+    for (
+      let shownRowIndex = 0;
+      shownRowIndex < shownRows.length;
+      ++shownRowIndex
+    ) {
+      const shownRow = shownRows[shownRowIndex].split("");
+      for (
+        let shownColIndex = 0;
+        shownColIndex < shownRow.length;
+        ++shownColIndex
+      ) {
+        //console.log(shownRow);
+        //console.log(boardArray);
+        const rowVal = shownRow[shownColIndex];
+        boardArray[shownColIndex][shownRowIndex] = !isNaN(rowVal)
+          ? Number(rowVal)
+          : rowVal;
       }
     }
     return boardArray;
   },
+  showBoard: function (boardArray) {
+    let boardDisplayString = "";
+    for (let rowIndex = 0; rowIndex < 6; ++rowIndex) {
+      for (let colIndex = 0; colIndex < 7; ++colIndex) {
+        boardDisplayString += boardArray[colIndex][rowIndex];
+      }
+      boardDisplayString += "\r\n";
+    }
+    console.log(boardDisplayString);
+    return boardDisplayString;
+  },
+  buildBoard,
   getFreshColumnArray,
   getIndexOfDropPointInColumn,
   canTokenBeDroppedInColumn,

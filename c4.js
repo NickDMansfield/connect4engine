@@ -16,4 +16,4 @@ console.log(testRandomBoard);
 console.log(utils.showBoard(testRandomBoard));
 console.log(logic.decideMove(testRandomBoard));
 
-playYourself.playGame(10);
+playYourself.playGame(30);
