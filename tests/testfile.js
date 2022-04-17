@@ -4,44 +4,23 @@ const utils = require("../utils/utils");
 
 console.log("Testing findWinningMoves");
 console.log("Horizontal wins");
-let resultWinningMoves = logic.findWinningMoves(
-  sampleBoards.boardWithWinAvailable()
-);
+let resultWinningMoves = logic.findWinningMoves(sampleBoards.boardWithWinAvailable());
 console.log(resultWinningMoves);
-console.log(
-  resultWinningMoves.length === 2 &&
-    resultWinningMoves[0] === 0 &&
-    resultWinningMoves[1] === 4
-);
+console.log(resultWinningMoves.length === 2 && resultWinningMoves[0] === 0 && resultWinningMoves[1] === 4);
 
 console.log("Horizontal and vertical wins");
-resultWinningMoves = logic.findWinningMoves(
-  sampleBoards.boardWithVerticalAndHorizontalWinsAvailable()
-);
+resultWinningMoves = logic.findWinningMoves(sampleBoards.boardWithVerticalAndHorizontalWinsAvailable());
 //console.log(resultWinningMoves);
-console.log(
-  resultWinningMoves.length === 3 &&
-    resultWinningMoves[0] === 0 &&
-    resultWinningMoves[1] === 2 &&
-    resultWinningMoves[2] === 4
-);
+console.log(resultWinningMoves.length === 3 && resultWinningMoves[0] === 0 && resultWinningMoves[1] === 2 && resultWinningMoves[2] === 4);
 
 console.log("Horizontal and Diagonal wins");
-resultWinningMoves = logic.findWinningMoves(
-  sampleBoards.boardWithDiagonalAndHorizontalWinsAvailable()
-);
+resultWinningMoves = logic.findWinningMoves(sampleBoards.boardWithDiagonalAndHorizontalWinsAvailable());
 //console.log(resultWinningMoves);
-console.log(
-  resultWinningMoves.length === 2 &&
-    resultWinningMoves[0] === 0 &&
-    resultWinningMoves[1] === 3
-);
+console.log(resultWinningMoves.length === 2 && resultWinningMoves[0] === 0 && resultWinningMoves[1] === 3);
 
 console.log("Testing findLosingMoves");
 console.log("Horizontal loss");
-let resultLosingMoves = logic.findLosingMoves(
-  sampleBoards.boardWithLossAvailable()
-);
+let resultLosingMoves = logic.findLosingMoves(sampleBoards.boardWithLossAvailable());
 //console.log(resultLosingMoves);
 console.log(resultLosingMoves.length === 1 && resultLosingMoves[0] === 3);
 
@@ -75,31 +54,33 @@ function testDecideMoves() {
       expectedColumnIndex: 4,
       behaviorTested: "Blocks on 4. No wins available",
     },
+    {
+      board: [
+        ["*", "*", "*", "*", "*", 1],
+        ["*", "*", "*", "*", 1, 1],
+        ["*", "*", "*", "*", 1, 0],
+        ["*", "*", "*", 1, 0, 0],
+        ["*", "*", 0, 0, 1, 0],
+        ["*", "*", "*", "*", "*", 1],
+        ["*", "*", "*", "*", "*", "*"],
+      ],
+      expectedColumnIndex: 5,
+      behaviorTested: "Should place in 5 to capture the column",
+    },
   ];
   for (let boardToTest of boardsToTestDecideMoves) {
     let resultColumnIndex = logic.decideMove(boardToTest.board);
     console.log(boardToTest.expectedColumnIndex === resultColumnIndex);
     if (boardToTest.expectedColumnIndex !== resultColumnIndex) {
       console.log("Test failure: " + boardToTest.behaviorTested);
-      console.log(
-        "Expected: " +
-          boardToTest.expectedColumnIndex +
-          " Got: " +
-          resultColumnIndex
-      );
+      console.log("Expected: " + boardToTest.expectedColumnIndex + " Got: " + resultColumnIndex);
     }
   }
 }
 testDecideMoves();
 
 console.log("Testing ReverseShownBoard");
-const boardToReverse =
-  "*11**1*\r\n" +
-  "*110*0*\r\n" +
-  "*000*00\r\n" +
-  "*101011\r\n" +
-  "*111010\r\n" +
-  "*001010";
+const boardToReverse = "*11**1*\r\n" + "*110*0*\r\n" + "*000*00\r\n" + "*101011\r\n" + "*111010\r\n" + "*001010";
 const reversedBoard = utils.reverseShownBoard(boardToReverse);
 const dereversedBoard = utils.showBoard(reversedBoard);
 //console.log("b2re:\r\n" + boardToReverse);

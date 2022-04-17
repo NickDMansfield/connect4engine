@@ -30,23 +30,13 @@ module.exports = {
   reverseShownBoard: function (showBoardString) {
     const shownRows = showBoardString.split("\r\n");
     const boardArray = buildBoard();
-    for (
-      let shownRowIndex = 0;
-      shownRowIndex < shownRows.length;
-      ++shownRowIndex
-    ) {
+    for (let shownRowIndex = 0; shownRowIndex < shownRows.length; ++shownRowIndex) {
       const shownRow = shownRows[shownRowIndex].split("");
-      for (
-        let shownColIndex = 0;
-        shownColIndex < shownRow.length;
-        ++shownColIndex
-      ) {
+      for (let shownColIndex = 0; shownColIndex < shownRow.length; ++shownColIndex) {
         //console.log(shownRow);
         //console.log(boardArray);
         const rowVal = shownRow[shownColIndex];
-        boardArray[shownColIndex][shownRowIndex] = !isNaN(rowVal)
-          ? Number(rowVal)
-          : rowVal;
+        boardArray[shownColIndex][shownRowIndex] = !isNaN(rowVal) ? Number(rowVal) : rowVal;
       }
     }
     return boardArray;
@@ -55,7 +45,7 @@ module.exports = {
     let boardDisplayString = "";
     for (let rowIndex = 0; rowIndex < 6; ++rowIndex) {
       for (let colIndex = 0; colIndex < 7; ++colIndex) {
-        boardDisplayString += boardArray[colIndex][rowIndex];
+        boardDisplayString += boardArray[colIndex][rowIndex] + " ";
       }
       boardDisplayString += "\r\n";
     }
@@ -88,18 +78,10 @@ module.exports = {
     if (availableColumnsWithIndex.length === 0) {
       return { index: -1 };
     }
-    const colToChoose = Math.ceil(
-      Math.random() * (availableColumnsWithIndex.length - 1)
-    );
+    const colToChoose = Math.ceil(Math.random() * (availableColumnsWithIndex.length - 1));
     return availableColumnsWithIndex[colToChoose];
   },
-  getValueOfRelativeCell: function (
-    boardArray,
-    initialColIndex = 0,
-    initialRowIndex = 0,
-    colIndexMod = 0,
-    rowIndexMod = 0
-  ) {
+  getValueOfRelativeCell: function (boardArray, initialColIndex = 0, initialRowIndex = 0, colIndexMod = 0, rowIndexMod = 0) {
     if (!boardArray?.length) {
       return [false, undefined];
     }
@@ -119,5 +101,8 @@ module.exports = {
       boardState[colIndex][dropIndex] = valueToPlace;
     }
     return boardState;
+  },
+  getOppositeSymbol: function (symbol) {
+    return symbol === 1 ? 0 : 1;
   },
 };

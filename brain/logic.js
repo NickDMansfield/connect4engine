@@ -1,11 +1,6 @@
 const utils = require("../utils/utils");
 
-const isSpotAWinner = function (
-  colIndex,
-  rowIndex,
-  boardState,
-  valToCheck = 1
-) {
+const isSpotAWinner = function (colIndex, rowIndex, boardState, valToCheck = 1) {
   // Identify all potential wins that could involve the spot
   // Test horizontals
   // console.log("COL IND:" + colIndex);
@@ -27,13 +22,7 @@ const isSpotAWinner = function (
 
   for (let colIndexMod = 1; colIndexMod <= 4; ++colIndexMod) {
     if (leftIsViable) {
-      let testCellResult = utils.getValueOfRelativeCell(
-        boardState,
-        colIndex,
-        rowIndex,
-        -colIndexMod,
-        0
-      );
+      let testCellResult = utils.getValueOfRelativeCell(boardState, colIndex, rowIndex, -colIndexMod, 0);
       // console.log(testCellResult);
       if (!testCellResult[0] || testCellResult[1] != valToCheck) {
         leftIsViable = false;
@@ -41,13 +30,7 @@ const isSpotAWinner = function (
       }
     }
     if (rightIsViable) {
-      let testCellResult = utils.getValueOfRelativeCell(
-        boardState,
-        colIndex,
-        rowIndex,
-        colIndexMod,
-        0
-      );
+      let testCellResult = utils.getValueOfRelativeCell(boardState, colIndex, rowIndex, colIndexMod, 0);
       //console.log(testCellResult);
       if (!testCellResult[0] || testCellResult[1] != valToCheck) {
         rightIsViable = false;
@@ -57,13 +40,7 @@ const isSpotAWinner = function (
 
     // Test vertical
     if (verticalIsViable) {
-      let testCellResult = utils.getValueOfRelativeCell(
-        boardState,
-        colIndex,
-        rowIndex,
-        0,
-        colIndexMod
-      );
+      let testCellResult = utils.getValueOfRelativeCell(boardState, colIndex, rowIndex, 0, colIndexMod);
       //console.log(testCellResult);
       if (!testCellResult[0] || testCellResult[1] != valToCheck) {
         verticalIsViable = false;
@@ -73,13 +50,7 @@ const isSpotAWinner = function (
     // Test Diagonals
 
     if (northEastDiagIsViable) {
-      let testCellResult = utils.getValueOfRelativeCell(
-        boardState,
-        colIndex,
-        rowIndex,
-        colIndexMod,
-        -colIndexMod
-      );
+      let testCellResult = utils.getValueOfRelativeCell(boardState, colIndex, rowIndex, colIndexMod, -colIndexMod);
       //console.log(testCellResult);
       if (!testCellResult[0] || testCellResult[1] != valToCheck) {
         northEastDiagIsViable = false;
@@ -88,13 +59,7 @@ const isSpotAWinner = function (
     }
 
     if (northwestDiagIsViable) {
-      let testCellResult = utils.getValueOfRelativeCell(
-        boardState,
-        colIndex,
-        rowIndex,
-        -colIndexMod,
-        -colIndexMod
-      );
+      let testCellResult = utils.getValueOfRelativeCell(boardState, colIndex, rowIndex, -colIndexMod, -colIndexMod);
       //console.log(testCellResult);
       if (!testCellResult[0] || testCellResult[1] != valToCheck) {
         northwestDiagIsViable = false;
@@ -103,13 +68,7 @@ const isSpotAWinner = function (
     }
 
     if (southeastDiagIsViable) {
-      let testCellResult = utils.getValueOfRelativeCell(
-        boardState,
-        colIndex,
-        rowIndex,
-        colIndexMod,
-        colIndexMod
-      );
+      let testCellResult = utils.getValueOfRelativeCell(boardState, colIndex, rowIndex, colIndexMod, colIndexMod);
       //console.log(testCellResult);
       if (!testCellResult[0] || testCellResult[1] != valToCheck) {
         southeastDiagIsViable = false;
@@ -118,13 +77,7 @@ const isSpotAWinner = function (
     }
 
     if (southWestDiagIsViable) {
-      let testCellResult = utils.getValueOfRelativeCell(
-        boardState,
-        colIndex,
-        rowIndex,
-        -colIndexMod,
-        colIndexMod
-      );
+      let testCellResult = utils.getValueOfRelativeCell(boardState, colIndex, rowIndex, -colIndexMod, colIndexMod);
       //console.log(testCellResult);
       if (!testCellResult[0] || testCellResult[1] != valToCheck) {
         southWestDiagIsViable = false;
@@ -132,12 +85,7 @@ const isSpotAWinner = function (
       }
     }
     //console.log("HORbO:" + horizontalBounds);
-    if (
-      horizontalBounds[1] - horizontalBounds[0] >= 3 ||
-      verticalBounds[1] - verticalBounds[0] >= 3 ||
-      diagNEHorBounds[1] - diagNEHorBounds[0] >= 3 ||
-      diagNWHorBounds[1] - diagNWHorBounds[0] >= 3
-    ) {
+    if (horizontalBounds[1] - horizontalBounds[0] >= 3 || verticalBounds[1] - verticalBounds[0] >= 3 || diagNEHorBounds[1] - diagNEHorBounds[0] >= 3 || diagNWHorBounds[1] - diagNWHorBounds[0] >= 3) {
       return true;
     }
   }
@@ -149,14 +97,7 @@ const findWinningMoves = function (boardState, valToCheck = 1) {
   for (let columnToCheck of availableMoves) {
     //  console.log(columnToCheck);
     // console.log(utils.getIndexOfDropPointInColumn(boardState[columnToCheck]));
-    if (
-      isSpotAWinner(
-        columnToCheck,
-        utils.getIndexOfDropPointInColumn(boardState[columnToCheck]),
-        boardState,
-        valToCheck
-      )
-    ) {
+    if (isSpotAWinner(columnToCheck, utils.getIndexOfDropPointInColumn(boardState[columnToCheck]), boardState, valToCheck)) {
       winningMoves.push(columnToCheck);
     }
   }
@@ -171,15 +112,7 @@ const findLosingMoves = function (boardState, opponentsValToCheck = 0) {
     //  console.log(columnToCheck);
     // console.log(utils.getIndexOfDropPointInColumn(boardState[columnToCheck]));
     let dropRow = utils.getIndexOfDropPointInColumn(boardState[columnToCheck]);
-    if (
-      dropRow > 0 &&
-      isSpotAWinner(
-        columnToCheck,
-        dropRow - 1,
-        boardState,
-        opponentsValToCheck.toString()
-      )
-    ) {
+    if (dropRow > 0 && isSpotAWinner(columnToCheck, dropRow - 1, boardState, opponentsValToCheck.toString())) {
       losingMoves.push(columnToCheck);
     }
   }
@@ -188,6 +121,7 @@ const findLosingMoves = function (boardState, opponentsValToCheck = 0) {
 
 module.exports = {
   decideMove: function (boardState, valToCheck = 1) {
+    console.log(boardState);
     utils.showBoard(boardState);
     let availableColumns = utils.getAvailableColumns(boardState);
     // Filter out columns which are maxed out
@@ -204,10 +138,7 @@ module.exports = {
     // console.log("post losing moves:" + availableColumns);
     // console.log("type in arr:" + typeof availableColumns[2]);
     // Can my opponent win next turn?
-    opponentsWinningMoves = findWinningMoves(
-      boardState,
-      valToCheck === 1 ? 0 : 1
-    );
+    opponentsWinningMoves = findWinningMoves(boardState, valToCheck === 1 ? 0 : 1);
     console.log("owm: " + opponentsWinningMoves);
     //    If so, select from block options
     //        For each blocking move, determine if the opponent can still win afterwards. Elliminate it if so
@@ -226,17 +157,7 @@ module.exports = {
     }
     // console.log("ac after blocking: " + availableColumns);
     // Can I set up a win for next turn?
-    let winningNextTurnAvailableMoves = availableColumns.filter(
-      (ac) =>
-        findWinningMoves(
-          utils.dropTokenInColumn(
-            JSON.parse(JSON.stringify(boardState)),
-            ac,
-            valToCheck
-          ),
-          valToCheck
-        ).length > 0
-    );
+    let winningNextTurnAvailableMoves = availableColumns.filter((ac) => findWinningMoves(utils.dropTokenInColumn(JSON.parse(JSON.stringify(boardState)), ac, valToCheck), valToCheck).length > 0);
     // console.log("awm:" + winningNextTurnAvailableMoves);
     if (winningNextTurnAvailableMoves.length) {
       if (winningNextTurnAvailableMoves.length == 1) {
@@ -247,11 +168,7 @@ module.exports = {
     }
     //    Does it break one of your captured columns?
     // Can you capture a column/create a deadzone?
-    return availableColumns.length
-      ? availableColumns[
-          Math.ceil(Math.random() * (availableColumns.length - 1))
-        ]
-      : -1;
+    return availableColumns.length ? availableColumns[Math.ceil(Math.random() * (availableColumns.length - 1))] : -1;
   },
   findWinningMoves,
   isSpotAWinner,

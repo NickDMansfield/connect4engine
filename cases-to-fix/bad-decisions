@@ -16,3 +16,23 @@ WINNER WINNER CHICKEN DINNER
 *100010
 
 For some reason, Player 0 chose to place in Column 2 rather than column 1. Player 1 has an available win, which should force a block rather than a proactive move
+==========================================================================
+
+
+
+[
+  [ '*', '*', '*', '*', '*', 1 ],
+  [ '*', '*', '*', '*', 1, 1 ],
+  [ '*', '*', '*', '*', 1, 0 ],
+  [ '*', '*', '*', 1, 0, 0 ],
+  [ '*', '*', 0, 0, 1, 0 ],
+  [ '*', '*', '*', '*', '*', 1 ],
+  [ '*', '*', '*', '*', '*', '*' ]
+]
+* * * * * * *
+* * * * * * *
+* * * * 0 * *
+* * * 1 0 * *
+* 1 1 0 1 * *
+1 1 0 0 0 1 *
+On player 0's turn, he places in column 2, which allows player 1 to win. This should not happen. The best move is LIKELY column index 5, since that captures the  column.
