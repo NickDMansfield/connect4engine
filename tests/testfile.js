@@ -19,10 +19,38 @@ resultWinningMoves = logic.findWinningMoves(sampleBoards.boardWithDiagonalAndHor
 console.log(resultWinningMoves.length === 2 && resultWinningMoves[0] === 0 && resultWinningMoves[1] === 3);
 
 console.log("Testing findLosingMoves");
-console.log("Horizontal loss");
-let resultLosingMoves = logic.findLosingMoves(sampleBoards.boardWithLossAvailable());
-//console.log(resultLosingMoves);
-console.log(resultLosingMoves.length === 1 && resultLosingMoves[0] === 3);
+const losingMoveBoards = [
+  {
+    board: sampleBoards.boardWithLossAvailable(),
+    behaviorTested: "Should have exactly one losing move, and it should be 3. Horizontal loss",
+    opponentSymbol: 1,
+    expectedValue: [3],
+  },
+  {
+    board: [
+      ["*", "*", "*", "*", "*", 1],
+      ["*", "*", "*", "*", 1, 1],
+      ["*", "*", "*", "*", 1, 0],
+      ["*", "*", "*", 1, 0, 0],
+      ["*", "*", 0, 0, 1, 0],
+      ["*", "*", "*", "*", "*", 1],
+      ["*", "*", "*", "*", "*", "*"],
+    ],
+    behaviorTested: "Should recognize that column 2 is a losing move",
+    opponentSymbol: 1,
+    expectedValue: [2],
+  },
+];
+losingMoveBoards.forEach((losingBoard) => {
+  console.log("Test: " + losingBoard.behaviorTested);
+  let resultLosingMoves = logic.findLosingMoves(losingBoard.board, losingBoard.opponentSymbol);
+  console.log(resultLosingMoves);
+  let correctnessCheck = resultLosingMoves.length === losingBoard.expectedValue.length && resultLosingMoves.every((val, index) => losingBoard.expectedValue.indexOf(val) >= 0);
+  console.log(correctnessCheck);
+  if (!correctnessCheck) {
+    console.log("Expected: " + losingBoard.expectedValue + " Got: " + resultLosingMoves);
+  }
+});
 
 console.log("Testing DecideMoves");
 
@@ -77,7 +105,7 @@ function testDecideMoves() {
     }
   }
 }
-testDecideMoves();
+//testDecideMoves();
 
 console.log("Testing ReverseShownBoard");
 const boardToReverse = "*11**1*\r\n" + "*110*0*\r\n" + "*000*00\r\n" + "*101011\r\n" + "*111010\r\n" + "*001010";
