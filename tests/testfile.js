@@ -23,7 +23,7 @@ const losingMoveBoards = [
   {
     board: sampleBoards.boardWithLossAvailable(),
     behaviorTested: "Should have exactly one losing move, and it should be 3. Horizontal loss",
-    opponentSymbol: 1,
+    opponentSymbol: 0,
     expectedValue: [3],
   },
   {

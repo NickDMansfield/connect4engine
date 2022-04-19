@@ -107,7 +107,7 @@ const findWinningMoves = function (boardState, valToCheck = 1) {
 const findLosingMoves = function (boardState, opponentsValToCheck = 0) {
   let availableMoves = utils.getFreshColumnArray();
   let losingMoves = [];
-  //  console.log(utils.showBoard(boardState));
+  utils.showBoard(boardState);
   for (let columnToCheck of availableMoves) {
     //  console.log(columnToCheck);
     // console.log(utils.getIndexOfDropPointInColumn(boardState[columnToCheck]));
