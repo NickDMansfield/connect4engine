@@ -93,7 +93,7 @@ function testDecideMoves() {
         ["*", "*", "*", "*", "*", "*"],
       ],
       expectedColumnIndex: 5,
-      behaviorTested: "Should place in 5 to capture the column",
+      behaviorTested: "Should place in 5 to capture the column, since there are no guaranteed wins next turn",
     },
   ];
   for (let boardToTest of boardsToTestDecideMoves) {
@@ -105,7 +105,7 @@ function testDecideMoves() {
     }
   }
 }
-//testDecideMoves();
+testDecideMoves();
 
 console.log("Testing ReverseShownBoard");
 const boardToReverse = "*11**1*\r\n" + "*110*0*\r\n" + "*000*00\r\n" + "*101011\r\n" + "*111010\r\n" + "*001010";

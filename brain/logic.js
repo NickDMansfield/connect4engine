@@ -133,9 +133,10 @@ module.exports = {
       return winningMoves[0];
     }
     // Remove all losing moves
-    losingMoves = findLosingMoves(boardState, valToCheck === 1 ? 0 : 1);
+    losingMoves = findLosingMoves(boardState, valToCheck);
+    console.log("Losing moves:" + losingMoves);
     availableColumns = availableColumns.filter((c) => !losingMoves.includes(c));
-    // console.log("post losing moves:" + availableColumns);
+    console.log("post losing moves:" + availableColumns);
     // console.log("type in arr:" + typeof availableColumns[2]);
     // Can my opponent win next turn?
     opponentsWinningMoves = findWinningMoves(boardState, valToCheck === 1 ? 0 : 1);
@@ -155,10 +156,15 @@ module.exports = {
       // We have multiple blocking options
       availableColumns = blockingMoves;
     }
-    // console.log("ac after blocking: " + availableColumns);
+    console.log("ac after blocking: " + availableColumns);
+
+    // Can I guarantee a win next turn?
+
+    // Can you capture a column/create a deadzone?
+
     // Can I set up a win for next turn?
     let winningNextTurnAvailableMoves = availableColumns.filter((ac) => findWinningMoves(utils.dropTokenInColumn(JSON.parse(JSON.stringify(boardState)), ac, valToCheck), valToCheck).length > 0);
-    // console.log("awm:" + winningNextTurnAvailableMoves);
+    console.log("awm:" + winningNextTurnAvailableMoves);
     if (winningNextTurnAvailableMoves.length) {
       if (winningNextTurnAvailableMoves.length == 1) {
         console.log("WINNER WINNER CHICKEN DINNER");
@@ -167,8 +173,8 @@ module.exports = {
       availableColumns = winningNextTurnAvailableMoves;
     }
     //    Does it break one of your captured columns?
-    // Can you capture a column/create a deadzone?
-    return availableColumns.length ? availableColumns[Math.ceil(Math.random() * (availableColumns.length - 1))] : -1;
+    console.log("Final available columns:" + availableColumns);
+    return availableColumns.length ? availableColumns[Math.ceil(Math.random() * availableColumns.length - 1)] : -1;
   },
   findWinningMoves,
   isSpotAWinner,
