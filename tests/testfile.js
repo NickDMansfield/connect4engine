@@ -118,3 +118,49 @@ const dereversedBoard = utils.showBoard(reversedBoard);
 console.log(reversedBoard[5][0] === 1);
 console.log(reversedBoard[4][3] === 0);
 console.log(reversedBoard[2][2] === 0);
+
+console.log("Testing isColumnCaptured");
+function testIsColumnCaptured() {
+  const testData = [
+    {
+      board: [
+        ["*", "*", "*", "*", "*", 1],
+        ["*", "*", "*", "*", 1, 1],
+        ["*", "*", "*", "*", 1, 0],
+        ["*", "*", "*", 1, 0, 0],
+        ["*", "*", 0, 0, 1, 0],
+        ["*", "*", "*", "*", "*", 1],
+        ["*", "*", "*", "*", "*", "*"],
+      ],
+      columnsToTest: [
+        {
+          columnIndicesToTest: [2],
+          expectedResult: true,
+          symbolToTest: 1
+        },
+        {
+          columnIndicesToTest: [0, 1, 3, 4, 5, 6],
+          expectedResult: false,
+          symbolToTest: 1
+        }
+      ],
+      behaviorTested: "Should realize that 2 is the only column captured by Player 1",
+    }
+  ];
+  for (let boardToTest of testData) {
+    console.log(boardToTest.behaviorTested);
+    for (let columnToTest of boardToTest.columnsToTest) {
+      for (let indexToTest of columnToTest.columnIndicesToTest) {
+        let testResult = logic.isColumnCaptured(boardToTest.board, columnToTest.symbolToTest, indexToTest) !== columnToTest.expectedResult;
+        if (testResult) {
+          console.log("TEST FAILED for:" + JSON.stringify({
+            indexToTest, expectedResult:  columnToTest.expectedResult, symbolToTest: columnToTest.symbolToTest
+          }));
+          console.log("Received:" + testResult)
+        }
+      }
+    }
+  }
+}
+
+testIsColumnCaptured();

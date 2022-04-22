@@ -1,5 +1,9 @@
 const utils = require("../utils/utils");
 
+const isColumnCaptured = function(boardState, symbolOfCapturingPlayer, colIndex) {
+  return isMoveALosingMove(boardState, colIndex, utils.getOppositeSymbol(symbolOfCapturingPlayer));
+}
+
 const isSpotAWinner = function (colIndex, rowIndex, boardState, valToCheck = 1) {
   // Identify all potential wins that could involve the spot
   // Test horizontals
@@ -104,6 +108,11 @@ const findWinningMoves = function (boardState, valToCheck = 1) {
   return winningMoves;
 };
 
+const isMoveALosingMove = function(boardState, colIndex, opponentsValToCheck) {
+  let dropRow = utils.getIndexOfDropPointInColumn(boardState[colIndex]);
+  return (dropRow > 0 && isSpotAWinner(colIndex, dropRow - 1, boardState, opponentsValToCheck.toString()));
+}
+
 const findLosingMoves = function (boardState, opponentsValToCheck = 0) {
   let availableMoves = utils.getFreshColumnArray();
   let losingMoves = [];
@@ -111,8 +120,7 @@ const findLosingMoves = function (boardState, opponentsValToCheck = 0) {
   for (let columnToCheck of availableMoves) {
     //  console.log(columnToCheck);
     // console.log(utils.getIndexOfDropPointInColumn(boardState[columnToCheck]));
-    let dropRow = utils.getIndexOfDropPointInColumn(boardState[columnToCheck]);
-    if (dropRow > 0 && isSpotAWinner(columnToCheck, dropRow - 1, boardState, opponentsValToCheck.toString())) {
+    if (isMoveALosingMove(boardState, columnToCheck, opponentsValToCheck)) {
       losingMoves.push(columnToCheck);
     }
   }
@@ -158,20 +166,23 @@ module.exports = {
     }
     console.log("ac after blocking: " + availableColumns);
 
-    // Can I guarantee a win next turn?
-
-    // Can you capture a column/create a deadzone?
-
     // Can I set up a win for next turn?
     let winningNextTurnAvailableMoves = availableColumns.filter((ac) => findWinningMoves(utils.dropTokenInColumn(JSON.parse(JSON.stringify(boardState)), ac, valToCheck), valToCheck).length > 0);
     console.log("awm:" + winningNextTurnAvailableMoves);
     if (winningNextTurnAvailableMoves.length) {
+      
+    // Can I guarantee a win next turn?
+
+
+    
       if (winningNextTurnAvailableMoves.length == 1) {
         console.log("WINNER WINNER CHICKEN DINNER");
         return winningNextTurnAvailableMoves[0];
       }
       availableColumns = winningNextTurnAvailableMoves;
     }
+    // Can you capture a column/create a deadzone?
+
     //    Does it break one of your captured columns?
     console.log("Final available columns:" + availableColumns);
     return availableColumns.length ? availableColumns[Math.ceil(Math.random() * availableColumns.length - 1)] : -1;
@@ -179,4 +190,5 @@ module.exports = {
   findWinningMoves,
   isSpotAWinner,
   findLosingMoves,
+  isColumnCaptured
 };
