@@ -94,6 +94,16 @@ const isSpotAWinner = function (colIndex, rowIndex, boardState, valToCheck = 1) 
     }
   }
 };
+
+const doesMoveSetUpAWinNextTurn = function(boardState, colIndex, valToCheck) {
+  return findWinningMoves(utils.dropTokenInColumn(JSON.parse(JSON.stringify(boardState)), colIndex, valToCheck), valToCheck).length > 0;
+}
+
+const findMovesThatSetUpAWinNextTurn = function(boardState, valToCheck, _availableColumns = null) {
+  const availableColumns = _availableColumns || utils.getAvailableColumns(boardState);
+  return availableColumns.filter((ac) => doesMoveSetUpAWinNextTurn(boardState, ac, valToCheck));
+}
+
 const findWinningMoves = function (boardState, valToCheck = 1) {
   let availableMoves = utils.getAvailableColumns(boardState);
   let winningMoves = [];
@@ -167,7 +177,7 @@ module.exports = {
     console.log("ac after blocking: " + availableColumns);
 
     // Can I set up a win for next turn?
-    let winningNextTurnAvailableMoves = availableColumns.filter((ac) => findWinningMoves(utils.dropTokenInColumn(JSON.parse(JSON.stringify(boardState)), ac, valToCheck), valToCheck).length > 0);
+    let winningNextTurnAvailableMoves = findMovesThatSetUpAWinNextTurn(boardState, valToCheck, availableColumns);
     console.log("awm:" + winningNextTurnAvailableMoves);
     if (winningNextTurnAvailableMoves.length) {
       
@@ -184,11 +194,15 @@ module.exports = {
     // Can you capture a column/create a deadzone?
 
     //    Does it break one of your captured columns?
+
+
     console.log("Final available columns:" + availableColumns);
     return availableColumns.length ? availableColumns[Math.ceil(Math.random() * availableColumns.length - 1)] : -1;
   },
   findWinningMoves,
   isSpotAWinner,
   findLosingMoves,
-  isColumnCaptured
+  isColumnCaptured,
+  doesMoveSetUpAWinNextTurn,
+  findMovesThatSetUpAWinNextTurn
 };
