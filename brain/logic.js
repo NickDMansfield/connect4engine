@@ -96,12 +96,26 @@ const isSpotAWinner = function (colIndex, rowIndex, boardState, valToCheck = 1) 
 };
 
 const doesMoveSetUpAWinNextTurn = function(boardState, colIndex, valToCheck) {
-  return findWinningMoves(utils.dropTokenInColumn(JSON.parse(JSON.stringify(boardState)), colIndex, valToCheck), valToCheck).length > 0;
+  const winningMoves = findWinningMoves(utils.dropTokenInColumn(JSON.parse(JSON.stringify(boardState)), colIndex, valToCheck), valToCheck);
+  return { newWinsAvailable: winningMoves.length, doesItWin: winningMoves.length > 0 };
 }
 
 const findMovesThatSetUpAWinNextTurn = function(boardState, valToCheck, _availableColumns = null) {
   const availableColumns = _availableColumns || utils.getAvailableColumns(boardState);
-  return availableColumns.filter((ac) => doesMoveSetUpAWinNextTurn(boardState, ac, valToCheck));
+  const returnObj = {
+    guaranteedWins: [],
+    singleWins: []
+  };
+  for (let ac in availableColumns) {
+    const winResult = doesMoveSetUpAWinNextTurn(boardState, ac, valToCheck);
+    if ( winResult.newWinsAvailable.length > 1) {
+      returnObj.guaranteedWins.push(ac);
+    } else if (winResult.newWinsAvailable.length === 1) {
+      returnObj.singleWins.push(ac);
+    }
+  }
+  returnObj.guaranteedWins = returnObj.guaranteedWins.sort((a, b) => b.newWinsAvailable-a.newWinsAvailable);
+  return returnObj;
 }
 
 const findWinningMoves = function (boardState, valToCheck = 1) {
@@ -179,21 +193,19 @@ module.exports = {
     // Can I set up a win for next turn?
     let winningNextTurnAvailableMoves = findMovesThatSetUpAWinNextTurn(boardState, valToCheck, availableColumns);
     console.log("awm:" + winningNextTurnAvailableMoves);
-    if (winningNextTurnAvailableMoves.length) {
-      
+    if (winningNextTurnAvailableMoves.guaranteedWins.length) {
     // Can I guarantee a win next turn?
-
-
-    
-      if (winningNextTurnAvailableMoves.length == 1) {
         console.log("WINNER WINNER CHICKEN DINNER");
-        return winningNextTurnAvailableMoves[0];
-      }
-      availableColumns = winningNextTurnAvailableMoves;
+        return winningNextTurnAvailableMoves.guaranteedWins[0];
     }
-    // Can you capture a column/create a deadzone?
-
-    //    Does it break one of your captured columns?
+    else {
+      // Can you capture a column/create a deadzone?
+  
+      //    Does it break one of your captured columns?
+      if (winningNextTurnAvailableMoves.singleWins.length) {
+        availableColumns = winningNextTurnAvailableMoves.singleWins;
+      }
+    }
 
 
     console.log("Final available columns:" + availableColumns);
