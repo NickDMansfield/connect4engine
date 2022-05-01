@@ -7,7 +7,7 @@ const readline = require("readline").createInterface({
 });
 
 const executeTurn = function (boardState, turnSymbol) {
-  readline.question(`Pick a column 0-6 `, (colIndex) => {
+  readline.question(`Pick a column 0-6 \r\n`, (colIndex) => {
     boardState = utils.dropTokenInColumn(boardState, colIndex, turnSymbol);
     // do PC's move
     const moveIndex = logic.decideMove(boardState, turnSymbol);
